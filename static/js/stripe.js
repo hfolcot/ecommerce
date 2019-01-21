@@ -9,13 +9,15 @@ $(function() {
         };
         
     Stripe.createToken(card, function(status, response) {
+        console.log("createToken")
         if (status === 200) {
+            console.log("200!")
             $("#credit-card-errors").hide();
             $("#id_stripe_id").val(response.id);
             
             //Prevent the credit card details from being submitted to our server
             $("#id_credit_card_number").removeAttr('name');
-            $("#id_cvv").remmoveAttr('name');
+            $("#id_cvv").removeAttr('name');
             $("#id_expiry_month").removeAttr('name');
             $("#id_expiry_year").removeAttr('name');
             
@@ -25,6 +27,7 @@ $(function() {
             $("#credit-card-errors").show();
             $("#validate_card_btn").attr("disabled", false);
         }
-    });    
     });
-})
+    return false;
+    });
+});

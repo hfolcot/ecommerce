@@ -17,10 +17,12 @@ stripe.api_key = settings.STRIPE_SECRET
 @login_required()
 def checkout(request):
     if request.method=='POST':
+        print("post request received")
         order_form = OrderForm(request.POST)
         payment_form = MakePaymentForm(request.POST)
-        
+        print(payment_form)
         if order_form.is_valid() and payment_form.is_valid():
+            print("order form is valid")
             order=order_form.save(commit=False)
             order.date = timezone.now()
             order.save()
@@ -55,6 +57,7 @@ def checkout(request):
                 messages.error(request, 'Unable to take payment')
                 
         else:
+            print("There was an error:")
             print(payment_form.errors)
             messages.error(request, 'We were unable to take payment from that card')
     else:
